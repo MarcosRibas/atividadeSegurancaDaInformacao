@@ -31,30 +31,29 @@ users = info["users"]
 verifyEmail = users[0]["emailVerified"]
 
 if verifyEmail:
-    print('Você está autenticado')
+    print('Você está autenticado!')
+    # Coletanto data e hora do acesso
+    data_atual = datetime.now()
+    acesso = data_atual.strftime(f'Acesso do email {user} na data: %d/%m/%Y, e hora: %H:%M \n')
 
-# Coletanto data e hora do acesso
-data_atual = datetime.now()
-acesso = data_atual.strftime(f'Acesso do email {user} na data: %d/%m/%Y, e hora: %H:%M \n')
+    # Criando arquivo como apenas leitura
+    arquivo = open("acesso.txt", 'r')
 
-# Criando arquivo como apenas leitura
-arquivo = open("acesso.txt", 'r')
+    # Modifica a permissão do arquivo para leitura, escrita e execução
+    if os.path.isfile('acesso.txt'):
+        os.chmod("acesso.txt", stat.S_IRWXU)
 
-# Modifica a permissão do arquivo para leitura, escrita e execução
-if os.path.isfile('acesso.txt'):
-    os.chmod("acesso.txt", stat.S_IRWXU)
+    # Abrindo o arquivo para escrita
+    arquivo = open("acesso.txt", 'a') # a de append, para adicionar todos os horários de acesso sem subistituir
 
-# Abrindo o arquivo para escrita
-arquivo = open("acesso.txt", 'a') # a de append, para adicionar todos os horários de acesso sem subistituir
+    # Fornecendo informações de ultimo acesso (email, data e hora);
+    arquivo.write(acesso)
 
-# Fornecendo informações de ultimo acesso (email, data e hora);
-arquivo.write(acesso)
+    # Fecha o arquivo
+    arquivo.close()
 
-# Fecha o arquivo
-arquivo.close()
-
-# Modifica o arquivo apenas para leitura
-os.chmod("acesso.txt", stat.S_IRUSR)
+    # Modifica o arquivo apenas para leitura
+    os.chmod("acesso.txt", stat.S_IRUSR)
 
 
 
